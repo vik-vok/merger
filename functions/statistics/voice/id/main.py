@@ -3,8 +3,7 @@ import requests
 
 
 USERS_URL = 'https://vikvok-anldg2io3q-ew.a.run.app/originalvoices/{}'
-STATISTICS_VOICE_URL = "https://vikvok-anldg2io3q-ew.a.run.app/statistics/voice/"
-ORIGINAL_VOICES_URL = 'https://vikvok-anldg2io3q-ew.a.run.app/originalvoices/{}'
+STATISTICS_VOICE_URL = 'https://vikvok-anldg2io3q-ew.a.run.app/statistics/voice/{}'
 
 
 def one_voice_statistics(request):
