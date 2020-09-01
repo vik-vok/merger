@@ -13,8 +13,7 @@ def original_voice_comments(request):
     elif request_args and 'voiceId' in request_args:
         voice_id = request_args['voiceId']
     else:
-        # return error apiresponse
-        return ""
+        return "voiceId not found!"
 
     comments_json = requests.get(COMMENTS_URL.format(voice_id)).json()
     for i, comment in enumerate(comments_json):
