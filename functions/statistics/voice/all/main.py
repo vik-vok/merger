@@ -11,7 +11,7 @@ def all_voice_statistics(request):
     statistics_json = requests.get(STATISTICS_VOICE_URL).json()
 
     for key, elem in statistics_json.items():
-        for i, dic in elem:
+        for i, dic in enumerate(elem['maxScorers']):
             user_id = dic['user_id']
             del dic['user_id']
             dic['user'] = requests.get(USERS_URL.format(user_id)).json()
