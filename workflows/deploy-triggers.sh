@@ -11,6 +11,7 @@ array=(
   'merger-statistics-voice-all':'all_voice_statistics':'functions/statistics/voice/all'
 
   'merger-statistics-user':'user_statistics':'functions/statistics/user'
+  'merger-user-voice-recorded-all':'merge_user_voice_recorded_all':'functions/user/voice/recorded'
 )
 
 for i in "${array[@]}"; do
