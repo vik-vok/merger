@@ -6,7 +6,7 @@ USERS_URL = 'https://vikvok-anldg2io3q-ew.a.run.app/originalvoices/{}'
 STATISTICS_VOICE_URL = "https://vikvok-anldg2io3q-ew.a.run.app/statistics/voice/"
 
 
-def one_voice_statistics(request):
+def all_voice_statistics(request):
     request_json = request.get_json(silent=True)
     request_args = request.args
     if request_json and 'originalVoiceId' in request_json:

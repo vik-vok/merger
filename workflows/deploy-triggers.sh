@@ -6,6 +6,11 @@ REPO_OWNER="vik-vok"
 array=(
   'merger-voice-original-comments':'original_voice_comments':'functions/voice/original/id/comments'
   'merger-voice-original-voices':'original_voice_recorded_voices':'functions/voice/original/id/recordedvoices'
+
+  'merger-statistics-voice-one':'one_voice_statistics':'functions/statistics/voice/id'
+  'merger-statistics-voice-all':'all_voice_statistics':'functions/statistics/voice/all'
+
+  'merger-statistics-user':'user_statistics':'functions/statistics/user'
 )
 
 for i in "${array[@]}"; do
