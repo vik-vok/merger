@@ -1,8 +1,6 @@
 import json
 import requests
 
-
-USERS_URL = 'https://vikvok-anldg2io3q-ew.a.run.app/users/{}'
 STATISTICS_USER_URL = "https://vikvok-anldg2io3q-ew.a.run.app/statistics/user/{}"
 ORIGINAL_VOICES_URL = 'https://vikvok-anldg2io3q-ew.a.run.app/originalvoices/{}'
 
