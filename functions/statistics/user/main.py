@@ -7,7 +7,7 @@ STATISTICS_USER_URL = "https://vikvok-anldg2io3q-ew.a.run.app/statistics/user/{}
 ORIGINAL_VOICES_URL = 'https://vikvok-anldg2io3q-ew.a.run.app/originalvoices/{}'
 
 
-def original_voice_comments(request):
+def user_statistics(request):
     request_json = request.get_json(silent=True)
     request_args = request.args
     if request_json and 'userId' in request_json:
