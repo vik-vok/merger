@@ -18,7 +18,7 @@ def user_statistics(request):
 
     statistics_json = requests.get(STATISTICS_USER_URL.format(user_id)).json()
 
-    for key in ['maxScorers', 'timeScore']:
+    for key in ['maxScores', 'timeScores']:
         for dic in statistics_json[key]:
             voice_id = dic['voiceId']
             del dic['voiceId']
