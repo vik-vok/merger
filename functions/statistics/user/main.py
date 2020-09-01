@@ -15,6 +15,7 @@ def user_statistics(request):
     elif request_args and 'userId' in request_args:
         user_id = request_args['userId']
     else:
+        #
         return "userId not found!"
 
     statistics_json = requests.get(STATISTICS_USER_URL.format(user_id)).json()
