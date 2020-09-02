@@ -22,9 +22,8 @@ def recorded_voices_full(request):
 
         # Retrieve data
         try:
-            if not userId:
-                user = None
-            else:
+            user = None
+            if userId:
                 if userId in cache:
                     user = cache[userId]
                 else:
