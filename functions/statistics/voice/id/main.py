@@ -1,27 +1,38 @@
 import json
 import requests
 
+API_PATH = "https://vikvok-anldg2io3q-ew.a.run.app"
 
-USERS_URL = "https://vikvok-anldg2io3q-ew.a.run.app/originalvoices/{}"
-STATISTICS_VOICE_URL = "https://vikvok-anldg2io3q-ew.a.run.app/statistics/voice/{}"
+USERS_URL = API_PATH + "/originalvoices/{voiceId}"
+STATISTICS_VOICE_URL = API_PATH + "/statistics/voice/{userId}"
 
 
 def one_voice_statistics(request):
+    # 1. Get Original Voice ID
     request_json = request.get_json(silent=True)
     request_args = request.args
     if request_json and "originalVoiceId" in request_json:
-        voice_id = request_json["originalVoiceId"]
+        voiceId = request_json["originalVoiceId"]
     elif request_args and "originalVoiceId" in request_args:
-        voice_id = request_args["originalVoiceId"]
+        voiceId = request_args["originalVoiceId"]
     else:
-        #
-        return "originalVoiceId not found!"
+        return (json.dumps({"error": "Missing parameter: originalVoiceId"}), 422, {})
 
-    statistics_json = requests.get(STATISTICS_VOICE_URL.format(voice_id)).json()
+    try:
+        url = STATISTICS_VOICE_URL.format(voiceId=voiceId)
+        statistics_json = requests.get(url).json()
+    except requests.exceptions.RequestException as err:
+        return (json.dumps({"API Call Path": url, "Error": err}), 500, {})
 
     for i, dic in statistics_json["maxScorers"]:
-        user_id = dic["UserId"]
+        userId = dic["UserId"]
         del dic["UserId"]
-        dic["user"] = requests.get(USERS_URL.format(user_id)).json()
+        try:
+            url = USERS_URL.format(userId=userId)
+            statistics_json = requests.get(url).json()
+            user = requests.get(url).json()
+            dic["user"] = user
+        except requests.exceptions.RequestException as err:
+            return (json.dumps({"API Call Path": url, "Error": err}), 500, {})
 
     return json.dumps(statistics_json)
