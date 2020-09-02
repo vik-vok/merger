@@ -11,15 +11,12 @@ def merge_original_voice_single_full(request):
     # 1. Get ID from request
     request_json = request.get_json(silent=True)
     request_args = request.args
-    if request_json and 'originalVoiceId' in request_json:
-        originalVoiceId = request_json['originalVoiceId']
-    elif request_args and 'originalVoiceId' in request_args:
-        originalVoiceId = request_args['originalVoiceId']
+    if request_json and "originalVoiceId" in request_json:
+        originalVoiceId = request_json["originalVoiceId"]
+    elif request_args and "originalVoiceId" in request_args:
+        originalVoiceId = request_args["originalVoiceId"]
     else:
-        return (
-            json.dumps({"error": "Missing parameter: originalVoiceId"}),
-            422,
-            {})
+        return (json.dumps({"error": "Missing parameter: originalVoiceId"}), 422, {})
 
     # 2. Get Recorded Voice
     try:

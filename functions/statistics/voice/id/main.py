@@ -4,7 +4,7 @@ import requests
 API_PATH = "https://vikvok-anldg2io3q-ew.a.run.app"
 
 STATISTICS_VOICE_URL = API_PATH + "/statistics/voice/{voiceId}"
-USERS_URL = API_PATH + "/originalvoices/{userId}"
+USERS_URL = API_PATH + "/users/{userId}"
 
 
 def one_voice_statistics(request):
@@ -18,21 +18,22 @@ def one_voice_statistics(request):
     else:
         return (json.dumps({"error": "Missing parameter: originalVoiceId"}), 422, {})
 
+    # 2. Fetch Statistics for given voice
     try:
         url = STATISTICS_VOICE_URL.format(voiceId=voiceId)
         statistics_json = requests.get(url).json()
     except requests.exceptions.RequestException as err:
         return (json.dumps({"API Call Path": url, "Error": err}), 500, {})
 
-    for i, dic in statistics_json["maxScorers"]:
-        userId = dic["UserId"]
-        del dic["UserId"]
+    # 3. Fetch Maxscorer users
+    for elem in statistics_json["maxScorers"]:
         try:
+            userId = elem["UserId"]
             url = USERS_URL.format(userId=userId)
-            statistics_json = requests.get(url).json()
             user = requests.get(url).json()
-            dic["user"] = user
+            elem["user"] = user
         except requests.exceptions.RequestException as err:
             return (json.dumps({"API Call Path": url, "Error": err}), 500, {})
 
-    return json.dumps(statistics_json)
+    # 4. Return Data in JSON
+    return json.dumps(statistics_json, indent=4, sort_keys=True, default=str)
