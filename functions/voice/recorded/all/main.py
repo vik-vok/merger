@@ -7,7 +7,7 @@ ORIGINAL_VOICES = API_PATH + "/originalvoices"
 USER = API_PATH + "/users/{userId}"
 
 
-def recorded_voices_full(request):
+def merge_original_voice_all_full(request):
     # 1. Get All Original Voices
     try:
         url = ORIGINAL_VOICES

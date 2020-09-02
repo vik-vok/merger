@@ -6,7 +6,9 @@ REPO_OWNER="vik-vok"
 array=(
   'merger-voice-original-comments':'original_voice_comments':'functions/voice/original/id/comments'
   'merger-voice-original-voices':'original_voice_recorded_voices':'functions/voice/original/id/recordedvoices'
-  'merger-voice-recorded-all-full':'recorded_voices_full':'functions/voice/recorded/all'
+  
+  'merger-voice-recorded-all-full':'merge_original_voice_all_full':'functions/voice/recorded/all'
+  'merger-voice-recorded-all-full':'merge_original_voice_single_full':'functions/voice/recorded/id'
 
   'merger-statistics-voice-one':'one_voice_statistics':'functions/statistics/voice/id'
   'merger-statistics-voice-all':'all_voice_statistics':'functions/statistics/voice/all'
