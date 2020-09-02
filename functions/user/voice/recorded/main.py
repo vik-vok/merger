@@ -33,7 +33,9 @@ def merge_user_voice_recorded_all(request):
 
         # Retrieve data
         try:
-            path = RECORDED_VOICES_BY_ORIGINAL.format(userId=userId, originalVoiceId=originalVoiceId)
+            path = RECORDED_VOICES_BY_ORIGINAL.format(
+                userId=userId, originalVoiceId=originalVoiceId
+            )
             recorded_voices = requests.get(path).json()
             elem["recordedVoices"] = recorded_voices
         except requests.exceptions.RequestException as err:
