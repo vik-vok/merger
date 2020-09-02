@@ -3,8 +3,8 @@ import requests
 
 API_PATH = "https://vikvok-anldg2io3q-ew.a.run.app"
 
-USERS_URL = API_PATH + "/originalvoices/{voiceId}"
-STATISTICS_VOICE_URL = API_PATH + "/statistics/voice/{userId}"
+STATISTICS_VOICE_URL = API_PATH + "/statistics/voice/{voiceId}"
+USERS_URL = API_PATH + "/originalvoices/{userId}"
 
 
 def one_voice_statistics(request):
