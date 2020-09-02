@@ -20,8 +20,8 @@ def one_voice_statistics(request):
     statistics_json = requests.get(STATISTICS_VOICE_URL.format(voice_id)).json()
 
     for i, dic in statistics_json['maxScorers']:
-        user_id = dic['user_id']
-        del dic['user_id']
+        user_id = dic['UserId']
+        del dic['UserId']
         dic['user'] = requests.get(USERS_URL.format(user_id)).json()
 
     return json.dumps(statistics_json)
