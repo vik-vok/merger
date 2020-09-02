@@ -4,7 +4,7 @@ import requests
 API_PATH = "https://vikvok-anldg2io3q-ew.a.run.app"
 
 ORIGINALS_TRIED = API_PATH + "/originalvoices/tried/{userId}"
-RECORDED_VOICES_BY_ORIGINAL = API_PATH + "/recordedvoices/original/{originalVoiceId}/{userId}"
+RECORDED_VOICES_BY_ORIGINAL = API_PATH + "/recordedvoices/original/test/{originalVoiceId}/{userId}"
 
 
 def merge_user_voice_recorded_all(request):
