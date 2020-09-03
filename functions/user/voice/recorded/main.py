@@ -1,5 +1,6 @@
 import json
 import requests
+from google.cloud import bigquery
 
 API_PATH = "https://vikvok-anldg2io3q-ew.a.run.app"
 
@@ -7,6 +8,28 @@ ORIGINALS_TRIED = API_PATH + "/originalvoices/tried/{userId}"
 RECORDED_VOICES_BY_ORIGINAL = (
     API_PATH + "/recordedvoices/original/test/{originalVoiceId}/{userId}"
 )
+
+
+def get_score(recordedVoiceId):
+    client = bigquery.Client("speech-similarity")
+
+    query_job = client.query(
+        """
+            select
+                Score
+            from 
+                statistics.recorded_voices 
+            where
+                RecordedVoiceId = '{recordedVoiceId}'
+        """.format(
+            recordedVoiceId=recordedVoiceId
+        )
+    )
+
+    users_tried = query_job.result()
+
+    for row in users_tried:
+        return row.Score
 
 
 def merge_user_voice_recorded_all(request):
@@ -37,6 +60,9 @@ def merge_user_voice_recorded_all(request):
                 userId=userId, originalVoiceId=originalVoiceId
             )
             recorded_voices = requests.get(path).json()
+            for recorded_voice in recorded_voices:
+                recorded_voice["score"] = get_score(recorded_voice["recordedVoiceId"])
+
             elem["recordedVoices"] = recorded_voices
         except requests.exceptions.RequestException as err:
             return (json.dumps({"API Call Path": path, "Error": err}), 500, {})
