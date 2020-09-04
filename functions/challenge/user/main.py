@@ -21,10 +21,10 @@ def merge_challenge_user(request):
     # 2. Get Recorded Voice
     url = CHALLENGE.format(receiverUserId=user_id)
     try:
-        challenges = requests.get(url)
+        challenges = requests.get(url).json()
     except requests.exceptions.RequestException as err:
         return json.dumps({"API Call Path": url, "Error": err}), 500, {}
-
+    # print(challenges.data)
     # 3. Get Users for Recorded Voice
     # for challenge in challenges:
     #     sender_user_id = challenge['senderUserId']
@@ -37,5 +37,5 @@ def merge_challenge_user(request):
     #     #     return json.dumps({"API Call Path": url, "Error": err}), 500, {}
 
     # 4. Return Data in JSON
-    return "bla"
+    return json.dumps(json)
     # return json.dumps(challenges, indent=4, default=str)
