@@ -61,7 +61,8 @@ def merge_user_voice_recorded_all(request):
             )
             recorded_voices = requests.get(path).json()
             for recorded_voice in recorded_voices:
-                recorded_voice["score"] = result[recorded_voice["recordedVoiceId"]]
+                rec_id = int(recorded_voice["recordedVoiceId"])
+                recorded_voice["score"] = 0 if rec_id not in result[rec_id] else 0
 
             elem["recordedVoices"] = recorded_voices
         except requests.exceptions.RequestException as err:
