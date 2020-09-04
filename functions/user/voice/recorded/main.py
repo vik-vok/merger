@@ -10,26 +10,23 @@ RECORDED_VOICES_BY_ORIGINAL = (
 )
 
 
-def get_score(recordedVoiceId):
+def get_score():
     client = bigquery.Client("speech-similarity")
 
     query_job = client.query(
         """
             select
-                Score
+                Score, RecordedVoiceId
             from 
                 statistics.recorded_voices 
-            where
-                RecordedVoiceId = '{recordedVoiceId}'
-        """.format(
-            recordedVoiceId=recordedVoiceId
-        )
+        """
     )
 
     users_tried = query_job.result()
-
+    result = {}
     for row in users_tried:
-        return row.Score
+        result[row.RecordedVoiceId] = row.Score
+    return result
 
 
 def merge_user_voice_recorded_all(request):
@@ -50,6 +47,9 @@ def merge_user_voice_recorded_all(request):
     except requests.exceptions.RequestException as err:
         return (json.dumps({"API Call Path": url, "Error": err}), 500, {})
 
+    result = get_score()
+    # recordedVoiceId
+
     # 3. Get All Recorded voices for all Original Voices
     for elem in originals_tried:
         originalVoiceId = elem["originalVoiceId"]
@@ -61,7 +61,7 @@ def merge_user_voice_recorded_all(request):
             )
             recorded_voices = requests.get(path).json()
             for recorded_voice in recorded_voices:
-                recorded_voice["score"] = get_score(recorded_voice["recordedVoiceId"])
+                recorded_voice["score"] = result[recorded_voice["recordedVoiceId"]]
 
             elem["recordedVoices"] = recorded_voices
         except requests.exceptions.RequestException as err:
