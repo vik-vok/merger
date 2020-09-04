@@ -39,13 +39,20 @@ def original_voice_recorded_voices(request):
         return "originalVoiceId not found!"
 
     voices_json = requests.get(RECORDED_VOICES_URL.format(voice_id)).json()
-    print(voices_json)
+    print(voices_json[0])
     result = get_score()
+    cache = {}
     for i, voice in enumerate(voices_json):
+        
         user_id = voice["userId"]
-        user = requests.get(USERS_URL.format(user_id)).json()
-        del voices_json[i]["userId"]
-        voices_json[i]["user"] = user
-        voices_json[i]["score"] = result[voices_json[i]['recordedVoiceId']]
+        if user_id in cache:
+            user = cache[user_id]
+        else:
+            user = requests.get(USERS_URL.format(user_id)).json()
+            del voices_json[i]["userId"]
+            voices_json[i]["user"] = user
+            rec_id = str(voices_json[i]['recordedVoiceId'])
+            voices_json[i]["score"] = 0 if rec_id not in result else result[rec_id]
+            cache[user_id] = user
 
     return json.dumps(voices_json)
