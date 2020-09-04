@@ -8,26 +8,23 @@ RECORDED_VOICES_URL = (
 USERS_URL = "https://vikvok-anldg2io3q-ew.a.run.app/users/{}"
 
 
-def get_score(recordedVoiceId):
+def get_score():
     client = bigquery.Client("speech-similarity")
 
     query_job = client.query(
         """
             select
-                Score
+                Score, RecordedVoiceId
             from 
                 statistics.recorded_voices 
-            where
-                RecordedVoiceId = '{recordedVoiceId}'
-        """.format(
-            recordedVoiceId=recordedVoiceId
-        )
+        """
     )
 
     users_tried = query_job.result()
-
+    result = {}
     for row in users_tried:
-        return row.Score
+        result[row.RecordedVoiceId] = row.Score
+    return result
 
 
 def original_voice_recorded_voices(request):
@@ -43,11 +40,12 @@ def original_voice_recorded_voices(request):
 
     voices_json = requests.get(RECORDED_VOICES_URL.format(voice_id)).json()
     print(voices_json)
+    result = get_score()
     for i, voice in enumerate(voices_json):
         user_id = voice["userId"]
         user = requests.get(USERS_URL.format(user_id)).json()
         del voices_json[i]["userId"]
         voices_json[i]["user"] = user
-        voices_json[i]["score"] = get_score(voices_json[i]["recordedVoiceId"])
+        voices_json[i]["score"] = result[voices_json[i]['recordedVoiceId']]
 
     return json.dumps(voices_json)
