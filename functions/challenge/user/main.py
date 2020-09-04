@@ -20,23 +20,21 @@ def merge_challenge_user(request):
 
     # 2. Get Recorded Voice
     url = CHALLENGE.format(receiverUserId=user_id)
-    # try:
-    challenges = requests.get(url)
-    print(challenges)
-    # except requests.exceptions.RequestException as err:
-    #     return json.dumps({"API Call Path": url, "Error": err}), 500, {}
-    # print(challenges.data)
+    try:
+        challenges = requests.get(url).json()
+    except requests.exceptions.RequestException as err:
+        return json.dumps({"API Call Path": url, "Error": err}), 500, {}
+
     # 3. Get Users for Recorded Voice
-    # for challenge in challenges:
-    #     sender_user_id = challenge['senderUserId']
-    #     del challenge['senderUserId']
-    #     # url = USER.format(userId=sender_user_id)
-    #     # try:
-    #     #     user = requests.get(url).json()
-    #     #     challenge['senderUser'] = user
-    #     # except requests.exceptions.RequestException as err:
-    #     #     return json.dumps({"API Call Path": url, "Error": err}), 500, {}
+    for challenge in challenges:
+        sender_user_id = challenge['senderUserId']
+        del challenge['senderUserId']
+        url = USER.format(userId=sender_user_id)
+        try:
+            user = requests.get(url).json()
+            challenge['senderUser'] = user
+        except requests.exceptions.RequestException as err:
+            return json.dumps({"API Call Path": url, "Error": err}), 500, {}
 
     # 4. Return Data in JSON
-    return ""
-    # return json.dumps(challenges, indent=4, default=str)
+    return json.dumps(challenges, indent=4, default=str)
