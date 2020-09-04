@@ -49,10 +49,10 @@ def original_voice_recorded_voices(request):
             user = cache[user_id]
         else:
             user = requests.get(USERS_URL.format(user_id)).json()
-            del voices_json[i]["userId"]
-            voices_json[i]["user"] = user
-            rec_id = str(voices_json[i]['recordedVoiceId'])
-            voices_json[i]["score"] = 0 if rec_id not in result else result[rec_id]
             cache[user_id] = user
+        voices_json[i]["user"] = user
+        del voices_json[i]["userId"]
+        rec_id = str(voices_json[i]['recordedVoiceId'])
+        voices_json[i]["score"] = 0 if rec_id not in result else result[rec_id]
 
     return json.dumps(voices_json)
