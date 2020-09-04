@@ -29,12 +29,12 @@ def merge_challenge_user(request):
     for challenge in challenges:
         sender_user_id = challenge['senderUserId']
         del challenge['senderUserId']
-        url = USER.format(userId=sender_user_id)
-        try:
-            user = requests.get(url).json()
-            challenge['senderUser'] = user
-        except requests.exceptions.RequestException as err:
-            return json.dumps({"API Call Path": url, "Error": err}), 500, {}
+        # url = USER.format(userId=sender_user_id)
+        # try:
+        #     user = requests.get(url).json()
+        #     challenge['senderUser'] = user
+        # except requests.exceptions.RequestException as err:
+        #     return json.dumps({"API Call Path": url, "Error": err}), 500, {}
 
     # 4. Return Data in JSON
     return json.dumps(challenges, indent=4, default=str)
