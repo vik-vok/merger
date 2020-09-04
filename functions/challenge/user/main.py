@@ -37,5 +37,5 @@ def merge_challenge_user(request):
     #     #     return json.dumps({"API Call Path": url, "Error": err}), 500, {}
 
     # 4. Return Data in JSON
-    return json.dumps(json)
+    return ""
     # return json.dumps(challenges, indent=4, default=str)
